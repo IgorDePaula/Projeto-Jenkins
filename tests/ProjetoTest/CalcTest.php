@@ -5,7 +5,7 @@ namespace ProjetoTest;
 require __DIR__."/../../vendor/autoload.php";
 use PJenkins\Math\Calc;
 
-class CalcTest extends PHPUnit_Framework_TestCase
+class CalcTest extends \PHPUnit_Framework_TestCase
 {
 private $Calc;
   protected function setUp()
