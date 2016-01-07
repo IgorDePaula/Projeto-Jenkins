@@ -6,7 +6,7 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"PJenkins\\" : "src"
+			"PJenkins\\" : "src/PJenkins"
 		}
 	},
 	"license": "MIT",
