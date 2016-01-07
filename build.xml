@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Projeto Jenkins" default="build">
+<project name="BrZend" default="build">
     <target name="build" depends="prepare,lint,phploc-ci,pdepend,phpmd-ci,phpcs-ci,phpcpd-ci,phpunit,phpdox,-check-failure"/>
 
     <target name="clean" unless="clean.done" description="Cleanup build artifacts">
@@ -16,6 +16,7 @@
         <mkdir dir="${basedir}/build/coverage"/>
         <mkdir dir="${basedir}/build/logs"/>
         <mkdir dir="${basedir}/build/pdepend"/>
+        <chmod file="${basedir}/build/tools/**" perm="ugo+x"/>
         <property name="prepare.done" value="true"/>
     </target>
 
@@ -38,7 +39,7 @@
     </target>
 
     <target name="phploc" description="Measure project size using PHPLOC">
-        <exec executable="${basedir}/vendor/bin/phploc" taskname="phploc">
+        <exec executable="${basedir}/build/tools/phploc.phar" taskname="phploc">
             <arg value="--count-tests"/>
             <arg path="${basedir}/src"/>
             <arg path="${basedir}/tests"/>
@@ -47,7 +48,7 @@
 
     <target name="phploc-ci" depends="prepare"
             description="Measure project size using PHPLOC and log result in CSV and XML format">
-        <exec executable="${basedir}/vendor/bin/phploc" taskname="phploc">
+        <exec executable="${basedir}/build/tools/phploc.phar" taskname="phploc">
             <arg value="--count-tests"/>
             <arg value="--log-csv"/>
             <arg path="${basedir}/build/logs/phploc.csv"/>
@@ -68,7 +69,7 @@
     </target>
 
     <target name="phpmd" description="Perform project mess detection using PHPMD and print result in text format">
-        <exec executable="${basedir}/vendor/bin/phpmd" taskname="phpmd">
+        <exec executable="${basedir}/build/tools/phpmd.phar" taskname="phpmd">
             <arg path="${basedir}/src"/>
             <arg value="text"/>
             <arg path="${basedir}/build/phpmd.xml"/>
@@ -77,7 +78,7 @@
 
     <target name="phpmd-ci" depends="prepare"
             description="Perform project mess detection using PHPMD and log result in XML format">
-        <exec executable="${basedir}/vendor/bin/phpmd" taskname="phpmd">
+        <exec executable="${basedir}/build/tools/phpmd.phar" taskname="phpmd">
             <arg path="${basedir}/src"/>
             <arg value="xml"/>
             <arg path="${basedir}/build/phpmd.xml"/>
@@ -88,7 +89,7 @@
 
     <target name="phpcs"
             description="Find coding standard violations using PHP_CodeSniffer and print result in text format">
-        <exec executable="${basedir}/vendor/bin/phpcs" taskname="phpcs">
+        <exec executable="${basedir}/build/tools/phpcs.phar" taskname="phpcs">
             <arg value="--standard=PSR2"/>
             <arg value="--extensions=php"/>
             <arg value="--ignore=autoload.php"/>
@@ -99,7 +100,7 @@
 
     <target name="phpcs-ci" depends="prepare"
             description="Find coding standard violations using PHP_CodeSniffer and log result in XML format">
-        <exec executable="${basedir}/vendor/bin/phpcs" output="/dev/null" taskname="phpcs">
+        <exec executable="${basedir}/build/tools/phpcs.phar" output="/dev/null" taskname="phpcs">
             <arg value="--report=checkstyle"/>
             <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
             <arg value="--standard=PSR2"/>
@@ -110,14 +111,14 @@
     </target>
 
     <target name="phpcpd" description="Find duplicate code using PHPCPD">
-        <exec executable="${basedir}/vendor/bin/phpcpd" taskname="phpcpd">
+        <exec executable="${basedir}/build/tools/phpcpd.phar" taskname="phpcpd">
             <arg path="${basedir}/src"/>
         </exec>
     </target>
 
     <target name="phpcpd-ci" depends="prepare"
             description="Find duplicate code using PHPCPD and log result in XML format">
-        <exec executable="${basedir}/vendor/bin/phpcpd" taskname="phpcpd">
+        <exec executable="${basedir}/build/tools/phpcpd.phar" taskname="phpcpd">
             <arg value="--log-pmd"/>
             <arg path="${basedir}/build/logs/pmd-cpd.xml"/>
             <arg path="${basedir}/src"/>
@@ -132,7 +133,7 @@
     </target>
 
     <target name="phpdox" depends="phploc-ci,phpcs-ci,phpmd-ci" description="Generate API documentation using phpDox">
-        <exec executable="${basedir}/vendor/bin/phpdox" dir="${basedir}/build" taskname="phpdox"/>
+        <exec executable="${basedir}/build/tools/phpdox.phar" dir="${basedir}/build" taskname="phpdox"/>
     </target>
 
     <target name="-check-failure">
