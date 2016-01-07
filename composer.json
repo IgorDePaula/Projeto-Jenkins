@@ -1,0 +1,26 @@
+{
+	"keywords" : [
+		"Testes",
+"Brasil",
+"Jenkins"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"PJenkins\\" : "src"
+		}
+	},
+	"license": "MIT",
+	"name" : "igordepaula/projetojenkins",
+	"description" : "Projeto de teste para o jenkins",
+	"require" : {
+		"php" : ">=5.3"
+	},
+	"require-dev":{
+		"phpunit/phpunit":"4.*",
+    "phpmd/phpmd": "2.1.*",
+    "sebastian/phpcpd": "2.0.*",
+    "pdepend/pdepend": "2.0.*",
+    "phploc/phploc": "2.0.*", 
+    "theseer/phpdox": "0.7.*"
+	}
+}
